@@ -1,0 +1,33 @@
+# Unreal Engine generated directories
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# Generated project files
+*.sln
+*.suo
+*.sdf
+*.opensdf
+*.opendb
+*.VC.db
+*.VC.opendb
+*.xcodeproj
+*.xcworkspace
+
+# IDE
+.vs/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Machine-local agent settings
+.claude/settings.local.json
+
+# Beads local state
+.beads/*.db
+.beads/*.db-shm
+.beads/*.db-wal
