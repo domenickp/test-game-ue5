@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "UEIntroProject",
+  "project_id": "262c59bf-25de-4f1c-96d9-51e2afa41280"
+}
