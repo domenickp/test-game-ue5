@@ -2,6 +2,102 @@
 
 This project uses **bd** (beads) for issue tracking. Run `bd onboard` to get started.
 
+---
+
+## Project: UEIntroProject
+
+An Unreal Engine 5.8 game built on the First Person template, used to learn Unreal.
+Gameplay logic is written in C++; levels, materials and Blueprint assets are authored
+in the editor.
+
+- `Source/UEIntroProject/` — C++ primary game module (`UEIntroProject`)
+- `Content/` — binary `.uasset`/`.umap` assets, tracked via **Git LFS**
+- `Config/` — project ini files
+
+**Agents cannot edit `.uasset` or `.umap` files.** They are binary. Blueprint and asset
+changes must be described as editor steps for the human to perform.
+
+### Build
+
+```bash
+# Windows
+"C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles\Build.bat" \
+  UEIntroProjectEditor Win64 Development \
+  -Project="<abs path>\UEIntroProject.uproject" -WaitMutex
+```
+
+**The Unreal Editor must be closed before building.** If it is running, the build fails
+with `Unable to build while Live Coding is active`. Check for `UnrealEditor` and
+`LiveCodingConsole` processes and ask the human to close the editor — never force-kill
+it, since unsaved level and Blueprint work is lost permanently.
+
+### Machine setup requirements
+
+Building this project requires, beyond the engine itself:
+
+- **Unreal Engine 5.8** (the `.uproject` pins `EngineAssociation` to 5.8)
+- **Git LFS** — without it, `Content/` clones as text pointer files and the project will not open
+- **A C++ toolchain** — MSVC (Visual Studio or Build Tools) on Windows
+- **.NET Framework 4.8 SDK** on Windows — the editor target pulls in `SwarmInterface`
+  via `UnrealEd` and fails with `Could not find NetFxSDK install dir` without it.
+  This is a separate component from the C++ toolchain and is easy to miss.
+
+Build Tools alone (no full Visual Studio IDE) is sufficient. UBT will warn
+`Unable to find Visual Studio SDK. Editor integration will be disabled` — this is benign.
+
+---
+
+## Working across multiple machines
+
+Issue data lives in a **Dolt database under `.beads/dolt/`, which is gitignored** and does
+NOT travel with the repo. The portable artifact is `.beads/issues.jsonl`, which IS
+committed. Treat that file as the source of truth when moving between machines.
+
+### Fresh clone on a new machine
+
+```bash
+git clone <repo-url>
+cd UEIntroProject
+git lfs install && git lfs pull   # required, or Content/ is just pointer files
+bd bootstrap                      # create the local database
+bd import                         # load issues from .beads/issues.jsonl
+bd hooks install                  # wire git hooks (config is per-machine, not in git)
+```
+
+### Every session
+
+```bash
+git pull --rebase
+bd import                                   # pull issue changes into the local db
+# ...work...
+bd export -o .beads/issues.jsonl            # BEFORE committing
+git add .beads/issues.jsonl <other files>
+git commit && git push
+```
+
+**Overrides the bd-managed section below:** that block says to use `bd dolt push` and that
+"no manual export/import is needed." That is not true for this project — there is no Dolt
+remote configured. Use `bd export` / `bd import` against `.beads/issues.jsonl` instead.
+
+### Things that do NOT travel between machines
+
+Re-establish these on each machine; do not assume they are present:
+
+- The Dolt database (`.beads/dolt/`) — rebuilt via `bd bootstrap` + `bd import`
+- `bd remember` memories — they are stored in the database and are **not** included in
+  `bd export`. Durable project knowledge belongs in this file, not in `bd remember`.
+- `core.hooksPath` and all git hook wiring — per-machine, set by `bd hooks install`
+- `.beads/.beads-credential-key` — machine-local secret, correctly gitignored
+- Derived data: `Binaries/`, `Intermediate/`, `Saved/`, `DerivedDataCache/`
+
+### Known bd gotcha
+
+`bd init` auto-commits, and it stages `.beads/.beads-credential-key` — a real secret that
+bd's own `.beads/.gitignore` does not exclude. It also appends a bare `*.db` rule to the
+root `.gitignore`. Check both after running `bd init` in any new repo.
+
+---
+
 ## Quick Reference
 
 ```bash

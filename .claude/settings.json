@@ -8,10 +8,10 @@
       "Bash(bd stats*)",
       "Bash(bd blocked*)",
       "Bash(bd dep tree *)",
-      "Bash(\"/c/Program Files \\(x86\\)/Microsoft Visual Studio/Installer/vswhere.exe\" *)",
-      "Read(//c/Program Files/Epic Games/**)",
-      "Read(//c/Program Files \\(x86\\)/Microsoft Visual Studio/**)",
-      "Read(//c/Program Files \\(x86\\)/Windows Kits/**)"
+      "Bash(bd search *)",
+      "Bash(bd memories *)",
+      "Bash(bd doctor)",
+      "Bash(bd import --dry-run)"
     ]
   }
 }

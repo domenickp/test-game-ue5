@@ -15,6 +15,9 @@
 *.mp3  filter=lfs diff=lfs merge=lfs -text
 *.mp4  filter=lfs diff=lfs merge=lfs -text
 
+# Beads issue export — pinned to LF so it does not churn between OSes
+*.jsonl text eol=lf
+
 # Source code — plain text, normalized line endings
 *.cpp      text eol=crlf
 *.h        text eol=crlf
