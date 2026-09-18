@@ -62,7 +62,11 @@ git lfs install && git lfs pull   # required, or Content/ is just pointer files
 bd bootstrap                      # create the local database
 bd import                         # load issues from .beads/issues.jsonl
 bd hooks install                  # wire git hooks (config is per-machine, not in git)
+git config --local beads.role maintainer   # otherwise bd warns on every command
 ```
+
+This sequence is verified: a fresh clone reproduces the full issue list with statuses
+(open / in_progress / closed) intact.
 
 ### Every session
 
