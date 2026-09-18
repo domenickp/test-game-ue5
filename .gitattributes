@@ -18,6 +18,9 @@
 # Beads issue export — pinned to LF so it does not churn between OSes
 *.jsonl text eol=lf
 
+# Shell hooks must be LF; CRLF gives "bad interpreter" on macOS and Linux
+.beads/hooks/* text eol=lf
+
 # Source code — plain text, normalized line endings
 *.cpp      text eol=crlf
 *.h        text eol=crlf

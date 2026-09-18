@@ -72,12 +72,22 @@ This sequence is verified: a fresh clone reproduces the full issue list with sta
 
 ```bash
 git pull --rebase
-bd import                                   # pull issue changes into the local db
+bd import        # pull issue changes into the local db -- NOT automatic
 # ...work...
-bd export -o .beads/issues.jsonl            # BEFORE committing
-git add .beads/issues.jsonl <other files>
-git commit && git push
+git commit       # pre-commit hook exports and stages .beads/issues.jsonl for you
+git push
 ```
+
+**Export is automatic.** A project-specific block in `.beads/hooks/pre-commit` (outside the
+beads-managed markers) runs `bd export` and stages `.beads/issues.jsonl` on every commit,
+so the committed issue list cannot drift from the local database. This is verified.
+
+**Import is not confirmed automatic.** bd installs a `post-merge` hook that may import
+after a pull, but that has not been tested here. Run `bd import` explicitly after pulling —
+it uses upsert semantics, so running it when it was not needed is harmless.
+
+bd has an `auto-export` config key that is accepted but has no observable effect — do not
+rely on it.
 
 **Overrides the bd-managed section below:** that block says to use `bd dolt push` and that
 "no manual export/import is needed." That is not true for this project — there is no Dolt
