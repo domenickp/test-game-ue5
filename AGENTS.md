@@ -104,6 +104,13 @@ Re-establish these on each machine; do not assume they are present:
 - `.beads/.beads-credential-key` — machine-local secret, correctly gitignored
 - Derived data: `Binaries/`, `Intermediate/`, `Saved/`, `DerivedDataCache/`
 
+### Who this project is for
+
+The human is comfortable writing code but is new to game development and new to Unreal.
+Explain engine concepts — actors, ticks, components, garbage collection, the reflection
+macros — rather than language basics. The goal is learning Unreal, not shipping a product,
+so prefer the approach that teaches the engine over the one that finishes fastest.
+
 ### Known bd gotcha
 
 `bd init` auto-commits, and it stages `.beads/.beads-credential-key` — a real secret that
